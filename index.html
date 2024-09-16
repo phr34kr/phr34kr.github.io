@@ -28,42 +28,48 @@
         }
         a {
             color: #db1020;
+            margin-top: 0.5rem;
         }
         .subtitle {
             font-size: 0.8em;
             color: #fff;
-            margin-top: 0.2rem;
+            margin-top: 0.5rem;
         }
         .author {
             font-style: italic;
             color: #000;
             font-size: 0.8em;
-            margin-top: 0.1em;
+            margin-top: 0.25em;
         }
-        .and {
+        .and, .gevp, .rvi {
             background-color: white;
-            margin: 1rem 1rem 0 1rem;
+            margin: 1rem auto 0;
             padding: 16px;
-            border-radius: 5px;
+            border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            gap:0.5rem;
-            max-width: 24rem;
+            width: calc(100% - 2rem);
+            max-width: 25rem;
+            box-sizing: border-box;
         }
-        .biblioteca {
+
+        .biblioteca  {
+            background-color: white;
+            margin: 1rem auto 0;
+            padding: 16px;
+            border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            justify-content: center;
-            gap: 0.5rem;
-            background-color: white;
-            margin: 1rem 1rem 0 1rem;
-            padding: 16px;
-            border-radius: 5px;
-            max-width: 24rem;
+            width: calc(100% - 2rem);
+            max-width: 25rem;
+            box-sizing: border-box;
+        }
+        .link {
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -72,109 +78,213 @@
     <img src="logo.png" alt="logo" style="width: 100px">
     <div class="subtitle">Rebelar-se é justo!</div>
     <div class="and">
-        <img src="and.png" alt="A Nova Democracia" style="width: 75%">
-        <a href="https://anovademocracia.com.br" target="_blank">Jornal A Nova Democracia - Por uma imprensa democrática, popular, nacional e antiimperialista!</a>
+        <img src="and.png" alt="A Nova Democracia" style="height: 40px">
+        <div class="author">Jornal A Nova Democracia</div>
+        <a href="https://anovademocracia.com.br" target="_blank">Por uma imprensa democrática, popular, nacional e antiimperialista!</a>
     </div>
     <div class="biblioteca">
         <h2>Biblioteca</h1>
-        <div class="link">
+        <div id="book-list">
+            <div class="link">
             <a href="https://drive.google.com/file/d/1QBh960-UPWgAx_uoYq79A0zWXQxAjR88/view?usp=drive_link" target="_blank">Manifesto do Partido Comunista</a>
             <div class="author">Karl Marx e Friedrich Engels</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1o5KqLwBqLV1SvkWg6pvCfUlyTC6owFMr/view?usp=drive_link" target="_blank">Do Socialismo Utópico ao Socialismo Científico</a>
-            <div class="author">Friedrich Engels</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/marx/1865/salario/index.htm" target="_blank">Salário, Preço e Lucro</a>
-            <div class="author">Karl Marx</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1W9_pdnIm8tUglK5GXZe9h7ljcRZ4Qbyx/view?usp=drive_link" target="_blank">Princípios Básicos do Comunismo</a>
-            <div class="author">Friedrich Engels</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/marx/1884/origem/index.htm" target="_blank">A Origem da Família, da Propriedade Privada e do Estado</a>
-            <div class="author">Friedrich Engels</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1VzWIF2ztND1jjevjXBwyxgIKm0-2CreH/view?usp=drive_link" target="_blank">O Estado e a Revolução</a>
-            <div class="author">Vladimir Lenin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/lenin/1902/quefazer/" target="_blank">Que Fazer</a>
-            <div class="author">Vladimir Lenin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/lenin/1916/imperialismo/" target="_blank">Imperialismo Fase Superior do Capitalismo</a>
-            <div class="author">Vladimir Lenin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/lenin/1913/03/tresfont.htm" target="_blank">As Três Fontes e as Três partes Constitutivas do Marxismo</a>
-            <div class="author">Vladimir Lenin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/lenin/1908/04/16.htm" target="_blank">Marxismo e Revisionismo</a>
-            <div class="author">Vladimir Lenin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/stalin/1938/09/mat-dia-hist.htm" target="_blank">Sobre o Materialismo Dialético e o Materialismo Histórico</a>
-            <div class="author">Josef Stalin</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/mao/1937/09/07.htm" target="_blank">Contra o Liberalismo</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/mao/1937/07/pratica.htm" target="_blank">Sobre a Prática</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/mao/1937/08/contra.htm" target="_blank">Sobre a Contradição</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/mao/1949/mes/ditadura.htm" target="_blank">Sobre a Ditadura da Democracia Popular</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/mao/1957/02/27.htm" target="_blank">Sobre o tratamento correto das contradições no seio do povo</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1wi3yKVGZiLzC3nLMJghR2tjnLS3nuUxg/view?usp=drive_link" target="_blank">Citações do Presidente Mao Zedong</a>
-            <div class="author">Mao Zedong</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/tematica/2003/mes/carta/index.htm" target="_blank">A Carta Chinesa</a>
-            <div class="author">Partido Comunista da China</div>
-        </div>
-        <div class="link">
-            <a href="https://serviraopovo.com.br/2021/10/13/acerca-do-pensamento-gonzalo-presidente-gonzalo-1988/" target="_blank">Acerca do Pensamento Gonzalo</a>
-            <div class="author">Partido Comunista do Peru</div>
-        </div>
-        <div class="link">
-            <a href="https://www.marxists.org/portugues/tematica/2018/mes/lcp.htm" target="_blank">Nosso Caminho</a>
-            <div class="author">Liga dos Camponeses Pobres</div>
-        </div>
-        <div class="link">
-            <a href="https://serviraopovo.com.br/2015/07/22/eleicao-nao-revolucao-sim/" target="_blank">Eleição Não! Revolução Sim!</a>
-            <div class="author">Frente Revolucionária de Defesa dos Direitos do Povo</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1gOBzf1_f07ouNFwd2ULC8fhexP3vMIoG/view?usp=drive_link" target="_blank">A dupla negação da TMD: nem leninismo, nem marxismo</a>
-            <div class="author">Núcleo de estudos do marxismo-leninismo-maoismo</div>
-        </div>
-        <div class="link">
-            <a href="https://serviraopovo.com.br/2023/12/21/o-legado-imortal-do-presidente-gonzalo-nucleo-de-estudos-do-mlm-2023/" target="_blank">O Legado Imortal do Presidente Gonzalo</a>
-            <div class="author">Núcleo de estudos do marxismo-leninismo-maoismo</div>
-        </div>
-        <div class="link">
-            <a href="https://drive.google.com/file/d/1tOHbHvDV4Y7hDsipWQ4qRrzr6_nH3-xd/view?usp=drive_link" target="_blank">Guia de estudos do marxismo-leninismo-maoismo aportes de validez universal do Presidente Gonzalo</a>
-            <div class="author">Grupo de Estudos Vale dos Pomares</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1o5KqLwBqLV1SvkWg6pvCfUlyTC6owFMr/view?usp=drive_link" target="_blank">Do Socialismo Utópico ao Socialismo Científico</a>
+                <div class="author">Friedrich Engels</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/marx/1865/salario/index.htm" target="_blank">Salário, Preço e Lucro</a>
+                <div class="author">Karl Marx</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/marx/1859/contcriteconpoli/index.htm" target="_blank">Uma Contribuição para a Crítica da Economia Política</a>
+                <div class="author">Karl Marx</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1W9_pdnIm8tUglK5GXZe9h7ljcRZ4Qbyx/view?usp=drive_link" target="_blank">Princípios Básicos do Comunismo</a>
+                <div class="author">Friedrich Engels</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/marx/1884/origem/index.htm" target="_blank">A Origem da Família, da Propriedade Privada e do Estado</a>
+                <div class="author">Friedrich Engels</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/marx/1877/antiduhring/index.htm" target="_blank">Anti-Dühring</a>
+                <div class="author">Friedrich Engels</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/marx/1886/mes/fim.htm" target="_blank">Ludwig Feuerbach e o Fim da Filosofia Clássica Alemã</a>
+                <div class="author">Friedrich Engels</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1VzWIF2ztND1jjevjXBwyxgIKm0-2CreH/view?usp=drive_link" target="_blank">O Estado e a Revolução</a>
+                <div class="author">Vladimir Lenin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/lenin/1902/quefazer/" target="_blank">Que Fazer</a>
+                <div class="author">Vladimir Lenin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/lenin/1916/imperialismo/" target="_blank">Imperialismo Fase Superior do Capitalismo</a>
+                <div class="author">Vladimir Lenin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/lenin/1913/03/tresfont.htm" target="_blank">As Três Fontes e as Três partes Constitutivas do Marxismo</a>
+                <div class="author">Vladimir Lenin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/lenin/1908/04/16.htm" target="_blank">Marxismo e Revisionismo</a>
+                <div class="author">Vladimir Lenin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/stalin/1938/09/mat-dia-hist.htm" target="_blank">Sobre o Materialismo Dialético e o Materialismo Histórico</a>
+                <div class="author">Josef Stalin</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/mao/1937/09/07.htm" target="_blank">Contra o Liberalismo</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/mao/1937/07/pratica.htm" target="_blank">Sobre a Prática</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/mao/1937/08/contra.htm" target="_blank">Sobre a Contradição</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/mao/1949/mes/ditadura.htm" target="_blank">Sobre a Ditadura da Democracia Popular</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/mao/1957/02/27.htm" target="_blank">Sobre o tratamento correto das contradições no seio do povo</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1wi3yKVGZiLzC3nLMJghR2tjnLS3nuUxg/view?usp=drive_link" target="_blank">Citações do Presidente Mao Zedong</a>
+                <div class="author">Mao Zedong</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/tematica/2003/mes/carta/index.htm" target="_blank">A Carta Chinesa</a>
+                <div class="author">Partido Comunista da China</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1KLkm0PbFvQjnnqqf9XiWE5HyB-rYv98C/view?usp=drive_link" target="_blank">Uma Compreensão Básica do Partido Comunista da China</a>
+                <div class="author">Partido Comunista da China</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2021/10/13/acerca-do-pensamento-gonzalo-presidente-gonzalo-1988/" target="_blank">Acerca do Pensamento Gonzalo</a>
+                <div class="author">Partido Comunista do Peru</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2021/09/25/linha-de-massas-partido-comunista-do-peru-1988/" target="_blank">Linha de Massas</a>
+                <div class="author">Partido Comunista do Peru</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/tematica/2018/mes/lcp.htm" target="_blank">Nosso Caminho</a>
+                <div class="author">Liga dos Camponeses Pobres</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2015/07/22/eleicao-nao-revolucao-sim/" target="_blank">Eleição Não! Revolução Sim!</a>
+                <div class="author">Frente Revolucionária de Defesa dos Direitos do Povo</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1gOBzf1_f07ouNFwd2ULC8fhexP3vMIoG/view?usp=drive_link" target="_blank">A dupla negação da TMD: nem leninismo, nem marxismo</a>
+                <div class="author">Núcleo de estudos do marxismo-leninismo-maoismo</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2023/12/21/o-legado-imortal-do-presidente-gonzalo-nucleo-de-estudos-do-mlm-2023/" target="_blank">O Legado Imortal do Presidente Gonzalo</a>
+                <div class="author">Núcleo de estudos do marxismo-leninismo-maoismo</div>
+            </div>
+            <div class="link">
+                <a href="https://anovademocracia.com.br/nemlm-friedrich-engels-a-fundacao-do-comunismo-a-sistematizacao-do-marxismo-e-a-revolucao-democratica/" target="_blank">Friedrich Engels: a fundação do Comunismo, a sistematização do Marxismo e a Revolução Democrática</a>
+                <div class="author">Núcleo de estudos do marxismo-leninismo-maoismo</div>
+            </div>
+            <div class="link">
+                <a href="https://www.marxists.org/portugues/tematica/livros/historia/index.htm" target="_blank">História do Partido Comunista (Bolchevique) da URSS</a>
+                <div class="author">Comissão do Comitê Central do PC(b) da URSS</div>
+            </div>
+            <div class="link">
+                <a href="https://anovademocracia.com.br/materias-impressas/de-karl-marx-ao-marxismo/" target="_blank">De Karl Marx ao marxismo</a>
+                <div class="author">Jornal A Nova Democracia</div>
+            </div>
+            <div class="link">
+                <a href="https://anovademocracia.com.br/historia-da-democracia-e-luta-de-classe-democracia-popular-e-nova-democracia/" target="_blank">História da democracia e luta de classe: Democracia Popular e Nova Democracia</a>
+                <div class="author">Prof. Fausto Arruda</div>
+            </div>
+            <div class="link">
+                <a href="https://drive.google.com/file/d/1srIBXThtHotTI_Ir82ron_GyjUlK9Dg4/view?usp=drive_link" target="_blank">A Revolução de Nova Democracia é a força principal da Revolução Proletária Mundial</a>
+                <div class="author">Partido Comunista do Brasil – P.C.B.</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2018/11/28/lenin-e-o-partido-comunista-militarizado-partido-comunista-do-brasil-fracao-vermelha/" target="_blank">Lenin e o Partido Comunista Militarizado</a>
+                <div class="author">Partido Comunista do Brasil – P.C.B.</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2019/01/11/a-questao-filosofica-em-lenin-comite-de-redacao-da-revista-o-maoista/" target="_blank">A questão filosófica em Lenin</a>
+                <div class="author">Comitê de Redação da revista ‘O Maoista’</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2016/01/15/um-se-divide-em-dois-a-arma-revolucionaria-de-mao-tsetung/" target="_blank">Um se divide em dois: a arma revolucionária de Mao Tsetung</a>
+                <div class="author">Antonio de Irala</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2019/01/07/sobre-o-pensamento-de-lenin-comite-bandeira-vermelha-alemanha/" target="_blank">Sobre o Pensamento de Lenin</a>
+                <div class="author">Comitê Bandeira Vermelha da Alemanha</div>
+            </div>
+            <div class="link">
+                <a href="https://serviraopovo.com.br/2019/01/07/sobre-o-pensamento-de-lenin-comite-bandeira-vermelha-alemanha/" target="_blank">Lenin militante ilegal</a>
+                <div class="author">B. Vasiliev e M. Kedrov</div>
+            </div>
         </div>
     </div>
+    <div class="gevp">
+        <img src="gevp.png" alt="Grupo de Estudos Vale dos Pomares" style="height: 100px">
+        <div class="author">Grupo de Estudos Vale dos Pomares</div>
+        <a href="https://drive.google.com/file/d/1tOHbHvDV4Y7hDsipWQ4qRrzr6_nH3-xd/view?usp=drive_link" target="_blank">Guia de estudos do marxismo-leninismo-maoismo aportes de validez universal do Presidente Gonzalo</a>
+        <a href="https://discord.gg/comunismo" target="_blank">Discord</a>
+    </div>
+    <div class="rvi">
+        <img src="rvi.png" alt="Rompendo com Velhas Ideias" style="height: 100px">
+        <div class="author">Rompendo com Velhas Ideias - João Pedro Fragoso</div>
+        <a href="https://www.youtube.com/channel/UCzPzFqn2bnsNB1mzhn--lAw" target="_blank">YouTube</a>
+    </div>
     <div class="subtitle" style="margin: 1rem;font-style: italic;">Atualizado dia 14/09/2024.</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookList = document.getElementById('book-list');
+            const books = Array.from(bookList.getElementsByClassName('link'));
+        
+            const authorOrder = ['Karl Marx', 'Friedrich Engels', 'Vladimir Lenin', 'Josef Stalin', 'Mao Zedong', 'Partido Comunista da China', 'Partido Comunista do Brasil – P.C.B.', 'Partido Comunista do Peru', 'Núcleo de estudos do marxismo-leninismo-maoismo', 'Jornal A Nova Democracia', 'Liga dos Camponeses Pobres', 'Frente Revolucionária de Defesa dos Direitos do Povo'];
+        
+            function getAuthorPriority(author) {
+                for (let i = 0; i < authorOrder.length; i++) {
+                    if (author.includes(authorOrder[i])) {
+                        return i;
+                    }
+                }
+                return authorOrder.length;
+            }
+        
+            books.sort((a, b) => {
+                const authorA = a.querySelector('.author').textContent;
+                const authorB = b.querySelector('.author').textContent;
+                const priorityA = getAuthorPriority(authorA);
+                const priorityB = getAuthorPriority(authorB);
+        
+                if (priorityA !== priorityB) {
+                    return priorityA - priorityB;
+                }
+        
+                const titleA = a.querySelector('a').textContent.toLowerCase();
+                const titleB = b.querySelector('a').textContent.toLowerCase();
+                return titleA.localeCompare(titleB);
+            });
+        
+            books.forEach(book => bookList.appendChild(book));
+        });
+        </script>
 </body>
 </html>
 
