@@ -344,31 +344,39 @@
 
         <script>
             const url = 'https://corsproxy.io/' + encodeURIComponent('https://resistenciacamponesa.com/');
-          
+            
             fetch(url)
-              .then(response => response.text())
-              .then(data => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, 'text/html');
-          
-                const tituloPrimeiraNoticia = doc.querySelector('h2 a');
-                const containerNoticias = document.getElementById('noticias');
-                
-                if (tituloPrimeiraNoticia) {
-                  const noticia = document.createElement('div');
-                  
-                  const link = document.createElement('a');
-                  const icone = '<i class="fa-regular fa-newspaper" style="color: white;padding: 5px;font-size: 10px;"></i>';                  link.href = tituloPrimeiraNoticia.href;
-                  link.setAttribute('target', '_blank');
-                  link.textContent = tituloPrimeiraNoticia.textContent;
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+        
+                    const tituloPrimeiraNoticia = doc.querySelector('h2 a');
+                    const containerNoticias = document.getElementById('noticias');
+                    
+                    if (tituloPrimeiraNoticia) {
+                        const noticia = document.createElement('div');
 
-                  noticia.appendChild(icone);
-                  noticia.appendChild(link);
-                  containerNoticias.appendChild(noticia);
-                }
-              })
-              .catch(error => console.error('Error fetching data:', error));
-          </script>
+                        const link = document.createElement('a');
+                        link.href = tituloPrimeiraNoticia.href;
+                        link.setAttribute('target', '_blank');
+                        link.textContent = tituloPrimeiraNoticia.textContent;
+
+                        const icone = document.createElement('i');
+                        icone.classList.add('fa-regular', 'fa-newspaper');
+                        icone.style.color = 'white';
+                        icone.style.padding = '5px';
+                        icone.style.fontSize = '10px';
+        
+                        noticia.appendChild(icone);
+                        noticia.appendChild(link);
+        
+                        containerNoticias.appendChild(noticia);
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        </script>
+        
 </body>
 </html>
 
