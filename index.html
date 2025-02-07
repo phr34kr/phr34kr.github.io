@@ -72,6 +72,10 @@
             margin-top: 0.5rem;
         }
 
+        .noticiasWrapper {
+            text-align: center;
+        }
+
         #wrapper {
             display: flex;
             flex-direction: row;
@@ -92,7 +96,7 @@
     <img src="mlm.png" alt="mlm" style="width: 32px; margin-bottom:0.2rem;">
     <img src="logo.png" alt="logo" style="width: 100px">
     <div class="subtitle">Rebelar-se é justo!</div>
-    <div id="noticias"></div>
+    <div class="noticiasWrapper"><div class="noticias"></div></div>
     <div id="wrapper">
         <div class="biblioteca">
             <h2>Biblioteca</h2>
@@ -356,7 +360,6 @@
                   const link = document.createElement('a');
                   link.href = tituloPrimeiraNoticia.href;
                   link.setAttribute('target', '_blank');
-                  link.style.textAlign = "center";
                   link.textContent = tituloPrimeiraNoticia.textContent;
 
                   noticia.appendChild(link);
