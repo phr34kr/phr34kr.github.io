@@ -339,25 +339,31 @@
         
 
         <script>
-          const url = 'https://resistenciacamponesa.com/';
-      
-          fetch(url)
-            .then(response => response.text())
-            .then(data => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(data, 'text/html');
-      
-              const newsTitles = doc.querySelectorAll('h2 a');
-              const newsContainer = document.getElementById('noticias');
-              
-              newsTitles.forEach(title => {
-                const newsItem = document.createElement('div');
-                newsItem.textContent = title.textContent;
-                newsContainer.appendChild(newsItem);
-              });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-        </script>
+            const url = 'https://corsproxy.io/' + encodeURIComponent('https://resistenciacamponesa.com/');
+          
+            fetch(url)
+              .then(response => response.text())
+              .then(data => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+          
+                const tituloPrimeiraNoticia = doc.querySelector('h2 a');
+                const containerNoticias = document.getElementById('noticias');
+                
+                if (tituloPrimeiraNoticia) {
+                  const noticia = document.createElement('div');
+                  
+                  const link = document.createElement('a');
+                  link.href = tituloPrimeiraNoticia.href;
+                  link.setAttribute('target', '_blank');
+                  link.textContent = tituloPrimeiraNoticia.textContent;
+
+                  noticia.appendChild(link);
+                  containerNoticias.appendChild(noticia);
+                }
+              })
+              .catch(error => console.error('Error fetching data:', error));
+          </script>
 </body>
 </html>
 
