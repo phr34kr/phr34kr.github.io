@@ -36,10 +36,6 @@
             color: #fff;
             margin-top: 0.5rem;
         }
-        #noticias {
-            text-align: center;
-            margin: 5px;
-        }
         .author {
             font-style: italic;
             color: #000;
@@ -91,13 +87,21 @@
                 margin-bottom: 0;
             }
         }
+
+        .link.highlight {
+            position: relative;
+            background-color: #ffeeba;
+            border: 2px solid #db1020;
+            box-shadow: 0 0 10px rgba(219, 16, 32, 0.5);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
     </style>
 </head>
 <body>
     <img src="mlm.png" alt="mlm" style="width: 32px; margin-bottom:0.2rem;">
     <img src="logo.png" alt="logo" style="width: 100px">
     <div class="subtitle">Rebelar-se é justo!</div>
-    <div id="noticias"></div>
     <div id="wrapper">
         <div class="biblioteca">
             <h2>Biblioteca</h2>
@@ -258,6 +262,10 @@
                     <a href="https://drive.google.com/file/d/11ZjrYT5aGRpjRZj3HdUw75nngFfYOXsP/view?usp=sharing" target="_blank">Os Condenados da Terra</a>
                     <div class="author">Frantz Fanon</div>
                 </div>
+                <div class="link highlight">
+                    <a href="https://drive.google.com/file/d/1-IMw21rNfiRFj1L0HYNMpxKrTdwDehP1/view?usp=sharing" target="_blank">O Capital (Obra Completa, Vol. 123)</a>
+                    <div class="author">Karl Marx</div>
+                </div>
             </div>
         </div>
     
@@ -293,7 +301,7 @@
                 <div class="author">Blog Liga Operária</div>
                 <a href="https://ligaoperaria.org.br/" target="_blank">"Os proletários nada têm a perder a não ser as suas cadeias. Têm um mundo a ganhar."</a>
             </div>
-            <div class="subtitle" style="margin: 1rem;font-style: italic;text-align: center;">Atualizado em 07/02/2025</div>
+            <div class="subtitle" style="margin: 1rem;font-style: italic;text-align: center;">Atualizado em 27/05/2025</div>
         </div>
     </div>
     
@@ -303,9 +311,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             const bookList = document.getElementById('book-list');
             const books = Array.from(bookList.getElementsByClassName('link'));
-        
-            const authorOrder = ['Karl Marx', 'Friedrich Engels', 'Vladimir Lenin', 'Josef Stalin', 'Mao Zedong', 'Partido Comunista da China', 'Partido Comunista do Brasil – P.C.B.', 'Partido Comunista do Peru', 'Núcleo de estudos do marxismo-leninismo-maoismo', 'Jornal A Nova Democracia', 'Liga dos Camponeses Pobres', 'Frente Revolucionária de Defesa dos Direitos do Povo', 'Frantz Fanon'];
-        
+
+            const authorOrder = [
+                'Karl Marx', 'Friedrich Engels', 'Vladimir Lenin', 'Josef Stalin', 'Mao Zedong',
+                'Partido Comunista da China', 'Partido Comunista do Brasil – P.C.B.',
+                'Partido Comunista do Peru', 'Núcleo de estudos do marxismo-leninismo-maoismo',
+                'Jornal A Nova Democracia', 'Liga dos Camponeses Pobres',
+                'Frente Revolucionária de Defesa dos Direitos do Povo', 'Frantz Fanon'
+            ];
+
             function getAuthorPriority(author) {
                 for (let i = 0; i < authorOrder.length; i++) {
                     if (author.includes(authorOrder[i])) {
@@ -314,23 +328,34 @@
                 }
                 return authorOrder.length;
             }
-        
-            books.sort((a, b) => {
-                const authorA = a.querySelector('.author').textContent;
-                const authorB = b.querySelector('.author').textContent;
-                const priorityA = getAuthorPriority(authorA);
-                const priorityB = getAuthorPriority(authorB);
-        
-                if (priorityA !== priorityB) {
-                    return priorityA - priorityB;
-                }
-        
-                const titleA = a.querySelector('a').textContent.toLowerCase();
-                const titleB = b.querySelector('a').textContent.toLowerCase();
-                return titleA.localeCompare(titleB);
-            });
-        
-            books.forEach(book => bookList.appendChild(book));
+
+            function sortBooks(bookArray) {
+                return bookArray.sort((a, b) => {
+                    const authorA = a.querySelector('.author').textContent;
+                    const authorB = b.querySelector('.author').textContent;
+                    const priorityA = getAuthorPriority(authorA);
+                    const priorityB = getAuthorPriority(authorB);
+
+                    if (priorityA !== priorityB) {
+                        return priorityA - priorityB;
+                    }
+
+                    const titleA = a.querySelector('a').textContent.toLowerCase();
+                    const titleB = b.querySelector('a').textContent.toLowerCase();
+                    return titleA.localeCompare(titleB);
+                });
+            }
+
+            // Split books into highlighted and normal
+            const highlightedBooks = books.filter(book => book.classList.contains('highlight'));
+            const normalBooks = books.filter(book => !book.classList.contains('highlight'));
+
+            // Sort each group
+            const sortedHighlighted = sortBooks(highlightedBooks);
+            const sortedNormal = sortBooks(normalBooks);
+
+            // Re-append to bookList
+            [...sortedHighlighted, ...sortedNormal].forEach(book => bookList.appendChild(book));
         });
         </script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDJH7C8GDF"></script>
@@ -340,44 +365,7 @@
           gtag('js', new Date());
         
           gtag('config', 'G-SDJH7C8GDF');
-        </script>
-        
-
-        <script>
-            const url = 'https://corsproxy.io/' + encodeURIComponent('https://resistenciacamponesa.com/');
-            
-            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(data, 'text/html');
-        
-                    const tituloPrimeiraNoticia = doc.querySelector('h2 a');
-                    const containerNoticias = document.getElementById('noticias');
-                    
-                    if (tituloPrimeiraNoticia) {
-                        const noticia = document.createElement('div');
-
-                        const link = document.createElement('a');
-                        link.href = tituloPrimeiraNoticia.href;
-                        link.setAttribute('target', '_blank');
-                        link.textContent = tituloPrimeiraNoticia.textContent;
-
-                        const icone = document.createElement('i');
-                        icone.classList.add('fa-regular', 'fa-newspaper');
-                        icone.style.color = 'white';
-                        icone.style.padding = '5px';
-                        icone.style.fontSize = '12px';
-        
-                        noticia.appendChild(icone);
-                        noticia.appendChild(link);
-        
-                        containerNoticias.appendChild(noticia);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        </script>
-        
+        </script>        
 </body>
 </html>
 
