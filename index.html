@@ -4,589 +4,684 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>phr34kr</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.cdnfonts.com/css/helvetica-255"
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Special+Elite&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --bg: #000;
+        --ink: #e8e4da;
+        --muted: #79746b;
+        --red: #db1020;
+        --line: #292927;
+        --paper: #e7e2d5;
+        --paper-ink: #16130d;
+        --maxw: 1500px;
+        --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --type: "Special Elite", "Courier New", monospace;
+        --mono: "Space Mono", ui-monospace, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
-        padding-top: 1rem;
-        background-color: #000;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: "Helvetica", sans-serif;
-      }
-      h1 {
-        text-align: center;
-        color: #fff;
-        margin: 0;
-      }
-      h2 {
-        text-align: center;
-        color: #000;
-        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.4;
       }
       a {
-        color: #db1020;
-        margin-top: 0.5rem;
+        color: inherit;
+        text-decoration: none;
       }
-      .subtitle {
-        font-size: 1em;
-        color: #fff;
-        margin-top: 0.5rem;
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 4vw, 3rem);
       }
-      .author {
-        font-style: italic;
-        color: #000;
-        font-size: 0.8em;
-        margin-top: 0.25em;
-      }
-      .and,
-      .sap,
-      .mfp,
-      .rvi,
-      .resistencia,
-      .lo {
-        background-color: white;
-        margin: 1rem auto 0;
-        padding: 20px;
-        border-radius: 0.5rem;
+
+      /* ---------- Masthead ---------- */
+      .masthead {
+        padding: 1.8rem 0 1.3rem;
+        border-bottom: 1px solid var(--line);
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
         text-align: center;
-        width: calc(100% - 2rem);
-        max-width: 25rem;
-        box-sizing: border-box;
+        gap: 0.55rem;
+      }
+      .masthead .mark {
+        width: 30px;
+        height: auto;
+      }
+      .masthead .logo {
+        width: 132px;
+        height: auto;
+      }
+      .stamp {
+        display: inline-block;
+        color: var(--red);
+        font-family: var(--type);
+        letter-spacing: 0.1em;
+        padding: 0.12rem 0.55rem;
+        font-size: 0.8rem;
       }
 
-      .biblioteca {
-        background-color: white;
-        margin: 1rem auto 0;
-        padding: 20px;
-        border-radius: 0.5rem;
+      /* ---------- Toolbar ---------- */
+      .toolbar {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 1.2rem 0 0.2rem;
+      }
+      .toolbar h1 {
+        font-family: var(--type);
+        font-weight: 400;
+        margin: 0;
+        font-size: clamp(1.4rem, 3.5vw, 2rem);
+        letter-spacing: 0.01em;
+      }
+      .toolbar .count {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+      }
+      .search {
+        position: relative;
+        flex: 1 1 220px;
+        max-width: 320px;
+      }
+      .search input {
+        width: 100%;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px dashed #44423d;
+        color: var(--ink);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        padding: 0.4rem 0.1rem;
+      }
+      .search input::placeholder {
+        color: var(--muted);
+      }
+      .search input:focus {
+        outline: none;
+        border-bottom: 1px solid var(--red);
+      }
+      #results {
+        position: absolute;
+        top: calc(100% + 0.45rem);
+        right: 0;
+        z-index: 50;
+        width: min(420px, 85vw);
+        max-height: min(60vh, 460px);
+        overflow-y: auto;
+        background: #0c0c0c;
+        border: 1px solid var(--line);
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.7);
+      }
+      #results[hidden] {
+        display: none;
+      }
+      .results-head {
+        position: sticky;
+        top: 0;
+        background: #0c0c0c;
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        padding: 0.55rem 0.85rem 0.45rem;
+        border-bottom: 1px solid var(--line);
+      }
+      .result {
+        display: block;
+        padding: 0.5rem 0.85rem;
+        border-left: 2px solid transparent;
+      }
+      .result:hover,
+      .result:focus-visible {
+        background: #161614;
+        border-left-color: var(--red);
+        outline: none;
+      }
+      .result .rt {
+        font-size: 0.9rem;
+        line-height: 1.25;
+      }
+      .result .ra {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.63rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 0.15rem;
+      }
+      .results-empty {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--muted);
+        padding: 0.85rem;
+      }
+
+      /* ---------- Featured ---------- */
+      .featured {
+        margin: 1.3rem 0 2rem;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .featured .lbl {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 0.66rem;
+        color: var(--red);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        padding: 0.7rem 0 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .featured .lbl::before {
+        content: "★";
+        color: var(--red);
+      }
+      .featured ul {
+        list-style: none;
+        margin: 0;
+        padding: 0.5rem 0 0.8rem;
+      }
+      .featured li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: baseline;
+        padding: 0.4rem 0;
+      }
+      .featured li .tick {
+        color: var(--red);
+        font-family: var(--mono);
+        font-size: 0.8rem;
+      }
+      .featured a {
+        font-size: clamp(1rem, 1.8vw, 1.2rem);
+        font-weight: 700;
+      }
+      .featured .byline {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 0.1rem;
+      }
+
+      /* ---------- Library: typed ledger, multi-column ---------- */
+      .library {
+        column-width: 20rem;
+        column-gap: 2.6rem;
+      }
+      .group {
+        break-inside: avoid;
+        margin: 0 0 1.6rem;
+        border-left: 2px solid var(--red);
+        padding-left: 0.85rem;
+      }
+      .ghead {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
+      }
+      .ghead .sq {
+        width: 8px;
+        height: 8px;
+        background: var(--red);
+        flex: none;
+        transform: translateY(-1px);
+      }
+      .ghead .gname {
+        font-family: var(--mono);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.82rem;
+        line-height: 1.2;
+      }
+      .group ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .group li {
+        padding: 0.16rem 0;
+        line-height: 1.32;
+        display: flex;
+        gap: 0.45rem;
+      }
+      .group li .dot {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        flex: none;
+      }
+      .group li a {
+        font-size: 0.92rem;
+        border-bottom: 1px solid transparent;
+        transition:
+          color 0.12s,
+          border-color 0.12s;
+      }
+      .group li a:hover,
+      .group li a:focus-visible {
+        color: var(--red);
+        border-bottom-color: var(--red);
+        outline: none;
+      }
+      .group .byline {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-top: 0.05rem;
+      }
+      .group.outros {
+        border-left-color: #3a3a37;
+      }
+      .group.outros .ghead .sq {
+        background: #3a3a37;
+      }
+
+      /* ---------- Mídia / Organizações: index cards ---------- */
+      .media {
+        margin: 2.1rem 0 0;
+      }
+      .media .mhead {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 0.68rem;
+        color: var(--ink);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .media .mhead::before {
+        content: "■";
+        color: var(--red);
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+        gap: 0.85rem;
+        margin-top: 1rem;
+      }
+      .cards--solo {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 300px));
+      }
+      .card {
+        background: var(--paper);
+        color: var(--paper-ink);
+        padding: 0.8rem 0.75rem 0.85rem;
+        border-top: 4px solid var(--red);
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        width: calc(100% - 2rem);
-        max-width: 25rem;
-        box-sizing: border-box;
+        gap: 0.35rem;
+        min-height: 120px;
+        transition: transform 0.12s;
       }
-      .link {
-        margin-top: 0.5rem;
+      .card:hover {
+        transform: translateY(-3px);
       }
-
-      #wrapper {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 2rem;
+      .card .logo {
+        height: 32px;
+        max-width: 100%;
+        object-fit: contain;
+        object-position: left center;
       }
-
-      @media (max-width: 768px) {
-        #wrapper {
-          flex-direction: column;
-          margin-bottom: 0;
-        }
+      .card .name {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 0.68rem;
+        text-transform: uppercase;
       }
-
-      .link.highlight {
+      .card .tag {
+        font-size: 0.71rem;
+        line-height: 1.25;
+        color: #4a443c;
+        margin-top: auto;
+      }
+      .card.video {
+        background: transparent;
+        border-top: 0;
+        padding: 0;
+        min-height: 0;
+        gap: 0;
+      }
+      .card.video .thumb {
         position: relative;
-        background-color: #ffeeba;
-        border: 2px solid #db1020;
-        box-shadow: 0 0 5px rgba(219, 16, 32, 0.5);
-        padding: 0.5rem;
-        border-radius: 0.5rem;
+        aspect-ratio: 16 / 9;
+        background: #111 center / cover no-repeat;
+        border-top: 4px solid var(--red);
+      }
+      .card.video .thumb::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.18);
+        transition: background 0.12s;
+      }
+      .card.video:hover .thumb::before {
+        background: rgba(0, 0, 0, 0.04);
+      }
+      .card.video .play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 13px 0 13px 22px;
+        border-color: transparent transparent transparent var(--red);
+        filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
+      }
+      .card.video .vtitle {
+        font-family: var(--mono);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 0.66rem;
+        line-height: 1.3;
+        color: var(--ink);
+        padding: 0.5rem 0.1rem 0;
       }
 
-      #book-search {
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 0.75rem;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 0.4rem;
-        font-family: inherit;
-        font-size: 0.95em;
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 2.4rem;
+        padding: 1rem 0 2.5rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        justify-content: center;
+        text-align: center;
       }
-      #book-search:focus {
-        outline: none;
-        border-color: #db1020;
-        box-shadow: 0 0 4px rgba(219, 16, 32, 0.4);
+      footer .red {
+        color: var(--red);
       }
-      .book-count {
-        align-self: flex-end;
-        color: #777;
-        font-size: 0.75em;
-        margin-top: 0.35rem;
-      }
-      #no-results {
-        color: #555;
-        font-style: italic;
-        font-size: 0.9em;
-        margin-top: 0.5rem;
-      }
-      noscript {
-        color: #555;
-        font-size: 0.9em;
-        margin-top: 0.5rem;
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
       }
     </style>
   </head>
   <body>
-    <img
-      src="mlm.png"
-      alt="Símbolo do marxismo-leninismo-maoismo"
-      style="width: 32px; margin-bottom: 0.2rem"
-    />
-    <img src="logo.png" alt="phr34kr" style="width: 100px" />
-    <div class="subtitle">Rebelar-se é justo!</div>
-    <div id="wrapper">
-      <div class="biblioteca">
-        <h2>Biblioteca</h2>
-        <input
-          id="book-search"
-          type="search"
-          placeholder="Buscar por título ou autor&hellip;"
-          aria-label="Buscar na biblioteca"
-          autocomplete="off"
-        />
-        <div class="book-count" id="book-count" aria-live="polite"></div>
-        <div id="book-list"></div>
-        <div id="no-results" hidden>Nenhum resultado encontrado.</div>
-        <noscript
-          >Ative o JavaScript para ver e pesquisar a biblioteca.</noscript
-        >
+    <div class="wrap">
+      <header class="masthead">
+        <img class="mark" src="mlm.png" alt="" />
+        <img class="logo" src="logo.png" alt="phr34kr" />
+        <span class="stamp">Rebelar-se é justo!</span>
+      </header>
+
+      <div class="toolbar">
+        <h1>Biblioteca <span class="count" id="count"></span></h1>
+        <div class="search">
+          <input
+            id="search"
+            type="search"
+            placeholder="buscar título ou autor…"
+            aria-label="Buscar na biblioteca"
+            autocomplete="off"
+          />
+          <div
+            id="results"
+            role="listbox"
+            aria-label="Resultados da busca"
+            hidden
+          ></div>
+        </div>
       </div>
 
-      <div id="midia">
-        <div class="and">
-          <img src="and.png" alt="A Nova Democracia" style="height: 40px" />
-          <div class="author">Jornal A Nova Democracia</div>
-          <a
-            href="https://anovademocracia.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Por uma imprensa democrática, popular,<br />nacional e
-            antiimperialista!</a
-          >
-        </div>
-        <div class="rvi">
-          <div style="position: relative; width: 100%; padding-top: 56.25%">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/MKQffXlaBW0?si=pW4wK03mW9xbKlsF"
-              title="Vídeo"
-              loading="lazy"
-              style="
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-              "
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-        <div class="resistencia">
-          <img
-            src="resistencia.png"
-            alt="Resistência Camponesa"
-            style="max-width: 100%"
-          />
-          <div class="author">Jornal Resistência Camponesa</div>
-          <a
-            href="https://resistenciacamponesa.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Viva a luta combativa no campo!<br />Morte ao latifúndio!</a
-          >
-        </div>
-        <div class="mfp">
-          <img
-            src="mfp.png"
-            alt="Movimento Feminino Popular"
-            style="max-width: 100%"
-          />
-          <div class="author">Movimento Feminino Popular</div>
-          <a
-            href="https://movimentofemininopopular.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Organização de vanguarda e de<br />massas de mulheres do povo</a
-          >
-        </div>
-        <div class="sap">
-          <img src="sap.png" alt="Servir ao Povo" style="max-width: 100%" />
-          <div class="author">Blog Servir ao Povo</div>
-          <a
-            href="https://serviraopovo.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Publicações marxistas-leninistas-maoistas<br />em português do
-            Brasil</a
-          >
-        </div>
-        <div class="lo">
-          <img src="lo.png" alt="Liga Operária" style="max-width: 100%" />
-          <div class="author">Blog Liga Operária</div>
-          <a
-            href="https://ligaoperaria.org.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >"Os proletários nada têm a perder a não ser as suas cadeias. Têm um
-            mundo a ganhar."</a
-          >
-        </div>
-        <div
-          class="subtitle"
-          id="last-updated-line"
-          style="margin: 1rem; font-style: italic; text-align: center"
+      <section class="featured" id="featured">
+        <div class="lbl">Em destaque</div>
+        <ul id="featured-list"></ul>
+      </section>
+
+      <main class="library" id="library"></main>
+
+      <section class="media">
+        <h2 class="mhead">Mídia</h2>
+        <div class="cards cards--solo" id="midia-list"></div>
+      </section>
+
+      <section class="media">
+        <h2 class="mhead">Organizações</h2>
+        <div class="cards" id="orgs-list"></div>
+      </section>
+
+      <footer>
+        <span
+          >Atualizado em
+          <span class="red" id="last-updated">26/06/2026</span></span
         >
-          Atualizado em <span id="last-updated">27/05/2025</span>
-        </div>
-      </div>
+      </footer>
     </div>
 
-    <!-- Biblioteca: para adicionar/editar uma obra, basta editar este array JSON.
-         Campos: "title", "author", "url" e (opcional) "highlight": true para destacar. -->
-    <script type="application/json" id="books-data">
-      [
-        {
-          "title": "Manifesto do Partido Comunista",
-          "author": "Karl Marx e Friedrich Engels",
-          "url": "https://drive.google.com/file/d/1QBh960-UPWgAx_uoYq79A0zWXQxAjR88/"
-        },
-        {
-          "title": "Do Socialismo Utópico ao Socialismo Científico",
-          "author": "Friedrich Engels",
-          "url": "https://drive.google.com/file/d/1o5KqLwBqLV1SvkWg6pvCfUlyTC6owFMr/"
-        },
-        {
-          "title": "Salário, Preço e Lucro",
-          "author": "Karl Marx",
-          "url": "https://www.marxists.org/portugues/marx/1865/salario/index.htm"
-        },
-        {
-          "title": "Uma Contribuição para a Crítica da Economia Política",
-          "author": "Karl Marx",
-          "url": "https://www.marxists.org/portugues/marx/1859/contcriteconpoli/index.htm"
-        },
-        {
-          "title": "Princípios Básicos do Comunismo",
-          "author": "Friedrich Engels",
-          "url": "https://drive.google.com/file/d/1W9_pdnIm8tUglK5GXZe9h7ljcRZ4Qbyx/"
-        },
-        {
-          "title": "A Origem da Família, da Propriedade Privada e do Estado",
-          "author": "Friedrich Engels",
-          "url": "https://www.marxists.org/portugues/marx/1884/origem/index.htm"
-        },
-        {
-          "title": "Anti-Dühring",
-          "author": "Friedrich Engels",
-          "url": "https://www.marxists.org/portugues/marx/1877/antiduhring/index.htm"
-        },
-        {
-          "title": "Ludwig Feuerbach e o Fim da Filosofia Clássica Alemã",
-          "author": "Friedrich Engels",
-          "url": "https://www.marxists.org/portugues/marx/1886/mes/fim.htm"
-        },
-        {
-          "title": "O Estado e a Revolução",
-          "author": "Vladimir Lenin",
-          "url": "https://drive.google.com/file/d/1VzWIF2ztND1jjevjXBwyxgIKm0-2CreH/"
-        },
-        {
-          "title": "Que Fazer",
-          "author": "Vladimir Lenin",
-          "url": "https://www.marxists.org/portugues/lenin/1902/quefazer/"
-        },
-        {
-          "title": "Imperialismo Fase Superior do Capitalismo",
-          "author": "Vladimir Lenin",
-          "url": "https://www.marxists.org/portugues/lenin/1916/imperialismo/"
-        },
-        {
-          "title": "As Três Fontes e as Três partes Constitutivas do Marxismo",
-          "author": "Vladimir Lenin",
-          "url": "https://www.marxists.org/portugues/lenin/1913/03/tresfont.htm"
-        },
-        {
-          "title": "Marxismo e Revisionismo",
-          "author": "Vladimir Lenin",
-          "url": "https://www.marxists.org/portugues/lenin/1908/04/16.htm"
-        },
-        {
-          "title": "Sobre o Materialismo Dialético e o Materialismo Histórico",
-          "author": "Josef Stalin",
-          "url": "https://www.marxists.org/portugues/stalin/1938/09/mat-dia-hist.htm"
-        },
-        {
-          "title": "Contra o Liberalismo",
-          "author": "Mao Zedong",
-          "url": "https://www.marxists.org/portugues/mao/1937/09/07.htm"
-        },
-        {
-          "title": "Sobre a Prática",
-          "author": "Mao Zedong",
-          "url": "https://www.marxists.org/portugues/mao/1937/07/pratica.htm"
-        },
-        {
-          "title": "Sobre a Contradição",
-          "author": "Mao Zedong",
-          "url": "https://www.marxists.org/portugues/mao/1937/08/contra.htm"
-        },
-        {
-          "title": "Sobre a Ditadura da Democracia Popular",
-          "author": "Mao Zedong",
-          "url": "https://www.marxists.org/portugues/mao/1949/mes/ditadura.htm"
-        },
-        {
-          "title": "Sobre o tratamento correto das contradições no seio do povo",
-          "author": "Mao Zedong",
-          "url": "https://www.marxists.org/portugues/mao/1957/02/27.htm"
-        },
-        {
-          "title": "Citações do Presidente Mao Zedong",
-          "author": "Mao Zedong",
-          "url": "https://drive.google.com/file/d/1wi3yKVGZiLzC3nLMJghR2tjnLS3nuUxg/"
-        },
-        {
-          "title": "A Carta Chinesa",
-          "author": "Partido Comunista da China",
-          "url": "https://www.marxists.org/portugues/tematica/2003/mes/carta/index.htm"
-        },
-        {
-          "title": "Uma Compreensão Básica do Partido Comunista da China",
-          "author": "Partido Comunista da China",
-          "url": "https://drive.google.com/file/d/1KLkm0PbFvQjnnqqf9XiWE5HyB-rYv98C/"
-        },
-        {
-          "title": "Acerca do Pensamento Gonzalo",
-          "author": "Partido Comunista do Peru",
-          "url": "https://serviraopovo.com.br/2021/10/13/acerca-do-pensamento-gonzalo-presidente-gonzalo-1988/"
-        },
-        {
-          "title": "Linha de Massas",
-          "author": "Partido Comunista do Peru",
-          "url": "https://serviraopovo.com.br/2021/09/25/linha-de-massas-partido-comunista-do-peru-1988/"
-        },
-        {
-          "title": "Nosso Caminho",
-          "author": "Liga dos Camponeses Pobres",
-          "url": "https://www.marxists.org/portugues/tematica/2018/mes/lcp.htm"
-        },
-        {
-          "title": "Eleição Não! Revolução Sim!",
-          "author": "Frente Revolucionária de Defesa dos Direitos do Povo",
-          "url": "https://serviraopovo.com.br/2015/07/22/eleicao-nao-revolucao-sim/"
-        },
-        {
-          "title": "A dupla negação da TMD: nem leninismo, nem marxismo",
-          "author": "Núcleo de estudos do marxismo-leninismo-maoismo",
-          "url": "https://drive.google.com/file/d/1gOBzf1_f07ouNFwd2ULC8fhexP3vMIoG/"
-        },
-        {
-          "title": "O Legado Imortal do Presidente Gonzalo",
-          "author": "Núcleo de estudos do marxismo-leninismo-maoismo",
-          "url": "https://serviraopovo.com.br/2023/12/21/o-legado-imortal-do-presidente-gonzalo-nucleo-de-estudos-do-mlm-2023/"
-        },
-        {
-          "title": "Friedrich Engels: a fundação do Comunismo, a sistematização do Marxismo e a Revolução Democrática",
-          "author": "Núcleo de estudos do marxismo-leninismo-maoismo",
-          "url": "https://anovademocracia.com.br/nemlm-friedrich-engels-a-fundacao-do-comunismo-a-sistematizacao-do-marxismo-e-a-revolucao-democratica/"
-        },
-        {
-          "title": "História do Partido Comunista (Bolchevique) da URSS",
-          "author": "Comissão do Comitê Central do PC(b) da URSS",
-          "url": "https://www.marxists.org/portugues/tematica/livros/historia/index.htm"
-        },
-        {
-          "title": "De Karl Marx ao marxismo - Luta de classes, luta de duas linhas e linha de massas",
-          "author": "Núcleo de estudos do marxismo-leninismo-maoismo",
-          "url": "https://serviraopovo.com.br/2024/05/09/de-karl-marx-ao-marxismo-luta-de-classes-luta-de-duas-linhas-e-linha-de-massas-nucleo-de-estudos-do-marxismo-leninismo-maoismo-2018-2020/"
-        },
-        {
-          "title": "História da democracia e luta de classe: Democracia Popular e Nova Democracia",
-          "author": "Prof. Fausto Arruda",
-          "url": "https://anovademocracia.com.br/historia-da-democracia-e-luta-de-classe-democracia-popular-e-nova-democracia/"
-        },
-        {
-          "title": "A Revolução de Nova Democracia é a força principal da Revolução Proletária Mundial",
-          "author": "Partido Comunista do Brasil – P.C.B.",
-          "url": "https://drive.google.com/file/d/1srIBXThtHotTI_Ir82ron_GyjUlK9Dg4/"
-        },
-        {
-          "title": "Lenin e o Partido Comunista Militarizado",
-          "author": "Partido Comunista do Brasil – P.C.B.",
-          "url": "https://serviraopovo.com.br/2018/11/28/lenin-e-o-partido-comunista-militarizado-partido-comunista-do-brasil-fracao-vermelha/"
-        },
-        {
-          "title": "A questão filosófica em Lenin",
-          "author": "Comitê de Redação da revista 'O Maoista'",
-          "url": "https://serviraopovo.com.br/2019/01/11/a-questao-filosofica-em-lenin-comite-de-redacao-da-revista-o-maoista/"
-        },
-        {
-          "title": "Um se divide em dois: a arma revolucionária de Mao Tsetung",
-          "author": "Antonio de Irala",
-          "url": "https://serviraopovo.com.br/2016/01/15/um-se-divide-em-dois-a-arma-revolucionaria-de-mao-tsetung/"
-        },
-        {
-          "title": "Sobre o Pensamento de Lenin",
-          "author": "Comitê Bandeira Vermelha da Alemanha",
-          "url": "https://serviraopovo.com.br/2019/01/07/sobre-o-pensamento-de-lenin-comite-bandeira-vermelha-alemanha/"
-        },
-        {
-          "title": "Lenin militante ilegal",
-          "author": "B. Vasiliev e M. Kedrov",
-          "url": "https://serviraopovo.com.br/2018/09/12/lenin-militante-ilegal-b-vasiliev-e-m-kedrov/"
-        },
-        {
-          "title": "Os Condenados da Terra",
-          "author": "Frantz Fanon",
-          "url": "https://drive.google.com/file/d/11ZjrYT5aGRpjRZj3HdUw75nngFfYOXsP/"
-        },
-        {
-          "title": "O Capital (Obra Completa, Vol. 123)",
-          "author": "Karl Marx",
-          "url": "https://drive.google.com/file/d/1-IMw21rNfiRFj1L0HYNMpxKrTdwDehP1/",
-          "highlight": false
-        },
-        {
-          "title": "Algumas leituras básicas sobre as três etapas do Marxismo e sobre a realidade brasileira",
-          "author": "Grupo de Estudos ao Povo Brasileiro",
-          "url": "https://drive.google.com/file/d/1pBzq55LOvnhcnzSDWc8LC2TGr7g-8TAt/"
-        },
-        {
-          "title": "Guia de estudo do marxismo-leninismo-maoismo aportes de validez universal do Presidente Gonzalo",
-          "author": "Grupo de Estudos Vale dos Pomares",
-          "url": "https://drive.google.com/file/d/1kQfHSNrr4fVbIgvA3ChXW_uP7IthpMao/",
-          "highlight": true
-        },
-        {
-          "title": "Introdução à Filosofia de Marx",
-          "author": "Sérgio Lessa e Ivo Tonet",
-          "url": "https://drive.google.com/file/d/1tqADWWY_rnn3wzibAkZfW7PIM1R4GrIo/"
-        }
-      ]
-    </script>
-
+    <!-- Todo o conteúdo (biblioteca, mídia, organizações e ordem dos autores)
+     vive em data.js — edite aquele arquivo para atualizar o site. -->
+    <script src="data.js"></script>
     <script>
       (function () {
-        // Order in which authors are grouped. Unknown authors fall to the end
-        // (still sorted by title). New authors can optionally be added here.
-        const AUTHOR_ORDER = [
-          "Karl Marx",
-          "Friedrich Engels",
-          "Vladimir Lenin",
-          "Josef Stalin",
-          "Mao Zedong",
-          "Partido Comunista da China",
-          "Partido Comunista do Brasil – P.C.B.",
-          "Partido Comunista do Peru",
-          "Núcleo de estudos do marxismo-leninismo-maoismo",
-          "Jornal A Nova Democracia",
-          "Liga dos Camponeses Pobres",
-          "Frente Revolucionária de Defesa dos Direitos do Povo",
-          "Frantz Fanon",
-          "Grupo de Estudos ao Povo Brasileiro",
-          "Grupo de Estudos Vale dos Pomares",
-        ];
-
-        // Accent-insensitive normalization (important for Portuguese search).
+        const D = window.SITE_DATA;
+        const AUTHOR_ORDER = D.authorOrder;
+        const OUTROS = "Outros autores";
         const norm = (s) =>
           s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+        const byTitle = (a, b) => a.title.localeCompare(b.title, "pt");
+        const groupOf = (a) => {
+          for (const x of AUTHOR_ORDER) if (a.includes(x)) return x;
+          return OUTROS;
+        };
+        const mk = (tag, cls, text) => {
+          const e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (text != null) e.textContent = text;
+          return e;
+        };
 
-        function authorPriority(author) {
-          for (let i = 0; i < AUTHOR_ORDER.length; i++) {
-            if (author.includes(AUTHOR_ORDER[i])) return i;
-          }
-          return AUTHOR_ORDER.length;
-        }
+        const books = D.books;
 
-        function compare(a, b) {
-          const pa = authorPriority(a.author),
-            pb = authorPriority(b.author);
-          if (pa !== pb) return pa - pb;
-          return a.title.localeCompare(b.title, "pt");
-        }
-
-        const books = JSON.parse(
-          document.getElementById("books-data").textContent,
-        );
-
-        // Highlighted first, then the rest — each group sorted. Sorting the data
-        // BEFORE building the DOM means the list renders once, in final order
-        // (no post-render reflow / flash).
-        const sorted = [
-          ...books.filter((b) => b.highlight).sort(compare),
-          ...books.filter((b) => !b.highlight).sort(compare),
-        ];
-
-        const list = document.getElementById("book-list");
-        const frag = document.createDocumentFragment();
-        const entries = [];
-
-        for (const b of sorted) {
-          const item = document.createElement("div");
-          item.className = b.highlight ? "link highlight" : "link";
-
-          const a = document.createElement("a");
+        function makeItem(b, withByline) {
+          const li = mk("li");
+          li.appendChild(mk("span", "dot", "–"));
+          const box = mk("div");
+          const a = mk("a", null, b.title);
           a.href = b.url;
           a.target = "_blank";
           a.rel = "noopener noreferrer";
-          a.textContent = b.title;
-
-          const author = document.createElement("div");
-          author.className = "author";
-          author.textContent = b.author;
-
-          item.appendChild(a);
-          item.appendChild(author);
-          frag.appendChild(item);
-
-          entries.push({ el: item, haystack: norm(b.title + " " + b.author) });
+          box.appendChild(a);
+          if (withByline) box.appendChild(mk("span", "byline", b.author));
+          li.appendChild(box);
+          return li;
         }
-        list.appendChild(frag);
 
-        // Live counter + search/filter.
-        const total = books.length;
-        const counter = document.getElementById("book-count");
-        const noResults = document.getElementById("no-results");
-        const search = document.getElementById("book-search");
-
-        function setCount(visible) {
-          counter.textContent =
-            visible === total
-              ? total + " obras"
-              : visible + " de " + total + " obras";
+        // Featured (highlighted works float to a "Em destaque" strip up top)
+        const fList = document.getElementById("featured-list");
+        for (const b of books.filter((b) => b.highlight).sort(byTitle)) {
+          const li = mk("li");
+          li.appendChild(mk("span", "tick", "■"));
+          const box = mk("div");
+          const a = mk("a", null, b.title);
+          a.href = b.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          box.appendChild(a);
+          box.appendChild(mk("span", "byline", b.author));
+          li.appendChild(box);
+          fList.appendChild(li);
         }
-        setCount(total);
 
-        search.addEventListener("input", function () {
-          const q = norm(search.value.trim());
-          let visible = 0;
-          for (const e of entries) {
-            const show = !q || e.haystack.includes(q);
-            e.el.hidden = !show;
-            if (show) visible++;
+        // Grouped library (author bands; authors outside authorOrder fall under "Outros autores")
+        const rest = books.filter((b) => !b.highlight);
+        const groups = new Map();
+        for (const b of rest) {
+          const g = groupOf(b.author);
+          if (!groups.has(g)) groups.set(g, []);
+          groups.get(g).push(b);
+        }
+        const keys = AUTHOR_ORDER.filter((k) => groups.has(k));
+        if (groups.has(OUTROS)) keys.push(OUTROS);
+
+        const lib = document.getElementById("library");
+        for (const key of keys) {
+          const items = groups.get(key);
+          const isOutros = key === OUTROS;
+          items.sort(
+            isOutros
+              ? (a, b) =>
+                  a.author.localeCompare(b.author, "pt") || byTitle(a, b)
+              : byTitle,
+          );
+          const section = mk("section", "group" + (isOutros ? " outros" : ""));
+          const head = mk("div", "ghead");
+          head.appendChild(mk("span", "sq"));
+          head.appendChild(mk("span", "gname", key));
+          const ul = mk("ul");
+          for (const b of items) ul.appendChild(makeItem(b, isOutros));
+          section.appendChild(head);
+          section.appendChild(ul);
+          lib.appendChild(section);
+        }
+
+        // Mídia (vídeos) e Organizações
+        const midiaList = document.getElementById("midia-list");
+        for (const v of D.midia) {
+          const a = mk("a", "card video");
+          a.href = "https://www.youtube.com/watch?v=" + v.youtube;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.setAttribute(
+            "aria-label",
+            v.title ? "Assistir: " + v.title : "Assistir vídeo no YouTube",
+          );
+          const thumb = mk("span", "thumb");
+          thumb.style.backgroundImage =
+            "url('https://img.youtube.com/vi/" + v.youtube + "/hqdefault.jpg')";
+          thumb.appendChild(mk("span", "play"));
+          a.appendChild(thumb);
+          if (v.title) a.appendChild(mk("span", "vtitle", v.title));
+          midiaList.appendChild(a);
+        }
+
+        const orgsList = document.getElementById("orgs-list");
+        for (const o of D.orgs) {
+          const a = mk("a", "card");
+          a.href = o.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          const img = mk("img", "logo");
+          img.src = o.logo;
+          img.alt = o.name;
+          img.loading = "lazy";
+          a.appendChild(img);
+          a.appendChild(mk("span", "name", o.name));
+          if (o.tagline) a.appendChild(mk("span", "tag", o.tagline));
+          orgsList.appendChild(a);
+        }
+
+        // Toolbar count always reflects the full library.
+        document.getElementById("count").textContent =
+          "[ " + books.length + " obras ]";
+
+        // Search — matches show in a separate dropdown; the library is never hidden.
+        const searchIndex = books.map((b) => ({
+          title: b.title,
+          author: b.author,
+          url: b.url,
+          haystack: norm(b.title + " " + b.author),
+        }));
+        const search = document.getElementById("search");
+        const results = document.getElementById("results");
+
+        function renderResults(q) {
+          const nq = norm(q);
+          const matches = searchIndex
+            .filter((e) => e.haystack.includes(nq))
+            .sort(
+              (a, b) => a.author.localeCompare(b.author, "pt") || byTitle(a, b),
+            );
+          results.textContent = "";
+          results.appendChild(
+            mk(
+              "div",
+              "results-head",
+              matches.length +
+                (matches.length === 1 ? " resultado" : " resultados"),
+            ),
+          );
+          if (!matches.length) {
+            results.appendChild(
+              mk("div", "results-empty", "Nenhum resultado encontrado."),
+            );
+          } else {
+            for (const m of matches) {
+              const a = mk("a", "result");
+              a.href = m.url;
+              a.target = "_blank";
+              a.rel = "noopener noreferrer";
+              a.appendChild(mk("span", "rt", m.title));
+              a.appendChild(mk("span", "ra", m.author));
+              results.appendChild(a);
+            }
           }
-          noResults.hidden = visible !== 0;
-          setCount(visible);
+          results.hidden = false;
+        }
+
+        search.addEventListener("input", () => {
+          const q = search.value.trim();
+          if (q) renderResults(q);
+          else results.hidden = true;
+        });
+        search.addEventListener("focus", () => {
+          const q = search.value.trim();
+          if (q) renderResults(q);
+        });
+        search.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            search.value = "";
+            results.hidden = true;
+          }
+        });
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".search")) results.hidden = true;
         });
 
-        // Auto "Atualizado em" date from the file's publish time.
+        // Auto "Atualizado em" from the file's publish time (static date is the no-JS fallback)
         const lu = document.getElementById("last-updated");
         const d = new Date(document.lastModified);
-        if (lu && !isNaN(d.getTime())) {
+        if (lu && !isNaN(d.getTime()))
           lu.textContent = d.toLocaleDateString("pt-BR");
-        }
       })();
     </script>
 
@@ -600,7 +695,6 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-SDJH7C8GDF");
     </script>
   </body>
