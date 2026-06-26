@@ -441,6 +441,37 @@
       footer .red {
         color: var(--red);
       }
+
+      /* ---------- Mobile ---------- */
+      /* Em telas estreitas a toolbar quebra e a busca fica à esquerda, com
+         espaço sobrando à direita. O dropdown era ancorado em right:0 com
+         largura 85vw → o lado esquerdo saía da tela e cortava os resultados.
+         Aqui a busca ocupa a linha inteira e o dropdown se alinha à caixa
+         (left:0 + right:0), nunca ultrapassando a viewport. */
+      @media (max-width: 560px) {
+        .search {
+          max-width: none;
+        }
+        #results {
+          left: 0;
+          right: 0;
+          width: auto;
+        }
+        /* Os cards de vídeo tinham teto fixo de 300px (minmax 240–300), então
+           a coluna única não esticava e sobrava espaço à direita. Aqui eles
+           preenchem a largura disponível (1fr no lugar do 300px fixo). */
+        .cards--solo {
+          grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+        }
+      }
+
+      /* Em telas de toque, inputs com fonte < 16px fazem o iOS dar zoom ao
+         focar. 16px evita o zoom sem alterar o visual do desktop. */
+      @media (pointer: coarse) {
+        .search input {
+          font-size: 16px;
+        }
+      }
       @media (prefers-reduced-motion: reduce) {
         * {
           transition: none !important;
