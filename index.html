@@ -44,7 +44,6 @@
         padding: 0 clamp(1rem, 4vw, 3rem);
       }
 
-      /* ---------- Masthead ---------- */
       .masthead {
         padding: 1.8rem 0 1.3rem;
         border-bottom: 1px solid var(--line);
@@ -71,7 +70,6 @@
         font-size: 0.8rem;
       }
 
-      /* ---------- Toolbar ---------- */
       .toolbar {
         display: flex;
         align-items: baseline;
@@ -105,7 +103,7 @@
         border-bottom: 1px dashed #44423d;
         color: var(--ink);
         font-family: var(--mono);
-        font-size: 0.82rem;
+        font-size: 16px;
         padding: 0.4rem 0.1rem;
       }
       .search input::placeholder {
@@ -173,7 +171,6 @@
         padding: 0.85rem;
       }
 
-      /* ---------- Featured ---------- */
       .featured {
         margin: 1.3rem 0 2rem;
         border-top: 1px solid var(--line);
@@ -225,7 +222,31 @@
         margin-top: 0.1rem;
       }
 
-      /* ---------- Library: typed ledger, multi-column ---------- */
+      .lib-controls {
+        display: flex;
+        justify-content: flex-end;
+        margin: 1.4rem 0 0.4rem;
+      }
+      .lib-toggle {
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 0.42rem 0.75rem;
+        cursor: pointer;
+        transition:
+          color 0.12s,
+          border-color 0.12s;
+      }
+      .lib-toggle:hover,
+      .lib-toggle:focus-visible {
+        color: var(--ink);
+        border-color: var(--red);
+        outline: none;
+      }
       .library {
         column-width: 20rem;
         column-gap: 2.6rem;
@@ -243,6 +264,10 @@
         border-bottom: 1px solid var(--line);
         padding-bottom: 0.3rem;
         margin-bottom: 0.5rem;
+        list-style: none;
+      }
+      .ghead::-webkit-details-marker {
+        display: none;
       }
       .ghead .sq {
         width: 8px;
@@ -258,6 +283,21 @@
         letter-spacing: 0.04em;
         font-size: 0.82rem;
         line-height: 1.2;
+        flex: 1;
+      }
+      .group .ghead {
+        cursor: pointer;
+      }
+      .group .ghead::after {
+        content: "+";
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1;
+        color: var(--muted);
+      }
+      .group[open] .ghead::after {
+        content: "–";
       }
       .group ul {
         list-style: none;
@@ -300,24 +340,18 @@
       }
       .group.outros {
         border-left-color: #3a3a37;
-        /* A cauda longa (autores de 1 título) flui entre as colunas: começa no
-           espaço que sobra após o último grupo e continua nas colunas seguintes,
-           em vez de virar um único bloco altíssimo. */
         break-inside: auto;
       }
       .group.outros .ghead {
-        /* cabeçalho não fica órfão no fim de uma coluna */
         break-after: avoid;
       }
       .group.outros li {
-        /* cada item (título + autor) permanece inteiro numa coluna */
         break-inside: avoid;
       }
       .group.outros .ghead .sq {
         background: #3a3a37;
       }
 
-      /* ---------- Mídia / Organizações: index cards ---------- */
       .media {
         margin: 2.1rem 0 0;
       }
@@ -442,12 +476,6 @@
         color: var(--red);
       }
 
-      /* ---------- Mobile ---------- */
-      /* Em telas estreitas a toolbar quebra e a busca fica à esquerda, com
-         espaço sobrando à direita. O dropdown era ancorado em right:0 com
-         largura 85vw → o lado esquerdo saía da tela e cortava os resultados.
-         Aqui a busca ocupa a linha inteira e o dropdown se alinha à caixa
-         (left:0 + right:0), nunca ultrapassando a viewport. */
       @media (max-width: 560px) {
         .search {
           max-width: none;
@@ -457,16 +485,14 @@
           right: 0;
           width: auto;
         }
-        /* Os cards de vídeo tinham teto fixo de 300px (minmax 240–300), então
-           a coluna única não esticava e sobrava espaço à direita. Aqui eles
-           preenchem a largura disponível (1fr no lugar do 300px fixo). */
         .cards--solo {
-          grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+          grid-template-columns: repeat(
+            auto-fill,
+            minmax(min(240px, 100%), 1fr)
+          );
         }
       }
 
-      /* Em telas de toque, inputs com fonte < 16px fazem o iOS dar zoom ao
-         focar. 16px evita o zoom sem alterar o visual do desktop. */
       @media (pointer: coarse) {
         .search input {
           font-size: 16px;
@@ -511,6 +537,12 @@
         <ul id="featured-list"></ul>
       </section>
 
+      <div class="lib-controls">
+        <button type="button" id="toggle-all" class="lib-toggle">
+          recolher tudo
+        </button>
+      </div>
+
       <main class="library" id="library"></main>
 
       <section class="media">
@@ -531,8 +563,6 @@
       </footer>
     </div>
 
-    <!-- Todo o conteúdo (biblioteca, mídia, organizações e ordem dos autores)
-     vive em data.js — edite aquele arquivo para atualizar o site. -->
     <script src="data.js"></script>
     <script>
       (function () {
@@ -542,9 +572,6 @@
         const norm = (s) =>
           s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
         const byTitle = (a, b) => a.title.localeCompare(b.title, "pt");
-        // Author de uma obra → chave do grupo. Autores combinados ("Karl Marx
-        // e Friedrich Engels") caem no primeiro autor do AUTHOR_ORDER que casa
-        // por substring; os demais usam o próprio nome como chave.
         const groupOf = (a) => {
           for (const x of AUTHOR_ORDER) if (a.includes(x)) return x;
           return a;
@@ -572,7 +599,6 @@
           return li;
         }
 
-        // Featured (highlighted works float to a "Em destaque" strip up top)
         const fList = document.getElementById("featured-list");
         for (const b of books.filter((b) => b.highlight).sort(byTitle)) {
           const li = mk("li");
@@ -588,12 +614,6 @@
           fList.appendChild(li);
         }
 
-        // Biblioteca agrupada por autor.
-        //  • O AUTHOR_ORDER define apenas quais autores aparecem primeiro (e em
-        //    que ordem) — esses são sempre uma seção própria.
-        //  • Qualquer outro autor com 2+ títulos também ganha a sua seção,
-        //    listada em ordem alfabética depois das do AUTHOR_ORDER.
-        //  • Autores com um único título caem em "Outros autores", no fim.
         const rest = books.filter((b) => !b.highlight);
         const groups = new Map();
         for (const b of rest) {
@@ -602,8 +622,6 @@
           groups.get(g).push(b);
         }
 
-        // Autor ganha seção própria se está no AUTHOR_ORDER (curado) ou tem 2+
-        // títulos; os de título único colapsam em "Outros autores".
         const outros = [];
         for (const k of [...groups.keys()]) {
           if (!AUTHOR_ORDER.includes(k) && groups.get(k).length < 2) {
@@ -612,8 +630,6 @@
           }
         }
 
-        // Ordem das seções: AUTHOR_ORDER primeiro, depois o resto em ordem
-        // alfabética por autor, e "Outros autores" por último.
         const keys = AUTHOR_ORDER.filter((k) => groups.has(k)).concat(
           [...groups.keys()]
             .filter((k) => !AUTHOR_ORDER.includes(k))
@@ -634,8 +650,8 @@
                   a.author.localeCompare(b.author, "pt") || byTitle(a, b)
               : byTitle,
           );
-          const section = mk("section", "group" + (isOutros ? " outros" : ""));
-          const head = mk("div", "ghead");
+          const section = mk("details", "group" + (isOutros ? " outros" : ""));
+          const head = mk("summary", "ghead");
           head.appendChild(mk("span", "sq"));
           head.appendChild(mk("span", "gname", key));
           const ul = mk("ul");
@@ -645,7 +661,34 @@
           lib.appendChild(section);
         }
 
-        // Mídia (vídeos) e Organizações
+        const groupEls = lib.querySelectorAll("details.group");
+        const mqMobile = window.matchMedia("(max-width: 560px)");
+        const toggleAll = document.getElementById("toggle-all");
+        const allOpen = () => [...groupEls].every((d) => d.open);
+        const setAll = (open) => {
+          for (const d of groupEls) d.open = open;
+        };
+        const refreshToggle = () => {
+          const open = allOpen();
+          toggleAll.textContent = open ? "recolher tudo" : "expandir tudo";
+          toggleAll.setAttribute("aria-expanded", String(open));
+        };
+        // Estado inicial: aberto no desktop, recolhido no mobile; recalcula ao
+        // cruzar o breakpoint (560px).
+        const syncGroups = (mobile) => {
+          setAll(!mobile);
+          refreshToggle();
+        };
+        syncGroups(mqMobile.matches);
+        mqMobile.addEventListener("change", (e) => syncGroups(e.matches));
+        toggleAll.addEventListener("click", () => {
+          setAll(!allOpen());
+          refreshToggle();
+        });
+        // O evento 'toggle' não borbulha → captura no contêiner para manter o
+        // rótulo do botão sincronizado com cliques em grupos individuais.
+        lib.addEventListener("toggle", refreshToggle, true);
+
         const midiaList = document.getElementById("midia-list");
         for (const v of D.midia) {
           const a = mk("a", "card video");
@@ -681,11 +724,9 @@
           orgsList.appendChild(a);
         }
 
-        // Toolbar count always reflects the full library.
         document.getElementById("count").textContent =
           "[ " + books.length + " obras ]";
 
-        // Search — matches show in a separate dropdown; the library is never hidden.
         const searchIndex = books.map((b) => ({
           title: b.title,
           author: b.author,
@@ -748,7 +789,6 @@
           if (!e.target.closest(".search")) results.hidden = true;
         });
 
-        // Auto "Atualizado em" from the file's publish time (static date is the no-JS fallback)
         const lu = document.getElementById("last-updated");
         const d = new Date(document.lastModified);
         if (lu && !isNaN(d.getTime()))

@@ -1,17 +1,4 @@
-// =============================================================================
-//  phr34kr — conteúdo do site
-//  Edite ESTE arquivo para atualizar a página. Não é preciso mexer no index.html.
-//  Tudo é carregado a partir de window.SITE_DATA.
-// =============================================================================
-
 window.SITE_DATA = {
-  // ---------------------------------------------------------------------------
-  // Ordem das seções de autor na biblioteca.
-  // A biblioteca é agrupada por autor; esta lista define a ordem dos grupos.
-  // Autores que não aparecem aqui caem em "Outros autores", no fim (ainda
-  // ordenados por título). Para dar a um autor a sua própria seção — ou mudar
-  // a ordem das seções — edite esta lista.
-  // ---------------------------------------------------------------------------
   authorOrder: [
     "Karl Marx",
     "Friedrich Engels",
@@ -20,13 +7,6 @@ window.SITE_DATA = {
     "Mao Zedong",
   ],
 
-  // ---------------------------------------------------------------------------
-  // Biblioteca. Um objeto por obra.
-  //   title     — título da obra
-  //   author    — autor (agrupa as obras; 2+ títulos do mesmo autor = seção própria)
-  //   url        — link
-  //   highlight — (opcional) true para destacar no topo, em "Em destaque"
-  // ---------------------------------------------------------------------------
   books: [
     {
       title: "Manifesto do Partido Comunista",
@@ -3760,11 +3740,6 @@ window.SITE_DATA = {
     },
   ],
 
-  // ---------------------------------------------------------------------------
-  // Mídia — vídeos do YouTube. Um objeto por vídeo.
-  //   youtube — ID do vídeo (a parte depois de v= na URL)
-  //   title   — (opcional) título exibido sobre o vídeo
-  // ---------------------------------------------------------------------------
   midia: [
     {
       youtube: "MKQffXlaBW0",
@@ -3841,13 +3816,6 @@ window.SITE_DATA = {
     },
   ],
 
-  // ---------------------------------------------------------------------------
-  // Organizações — sites. Um objeto por site.
-  //   name    — nome exibido
-  //   logo    — nome do arquivo .png no repositório
-  //   url      — link
-  //   tagline — frase curta
-  // ---------------------------------------------------------------------------
   orgs: [
     {
       name: "A Nova Democracia",
