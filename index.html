@@ -485,6 +485,13 @@
           right: 0;
           width: auto;
         }
+        /* No mobile só cabe uma coluna; sair do modo multi-coluna evita o
+           espaço "fantasma" que sobra ao recolher um <details> (o navegador
+           não recalcula a altura da coluna). */
+        .library {
+          column-width: auto;
+          column-gap: 0;
+        }
         .cards--solo {
           grid-template-columns: repeat(
             auto-fill,
