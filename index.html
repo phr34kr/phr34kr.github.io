@@ -300,6 +300,18 @@
       }
       .group.outros {
         border-left-color: #3a3a37;
+        /* A cauda longa (autores de 1 título) flui entre as colunas: começa no
+           espaço que sobra após o último grupo e continua nas colunas seguintes,
+           em vez de virar um único bloco altíssimo. */
+        break-inside: auto;
+      }
+      .group.outros .ghead {
+        /* cabeçalho não fica órfão no fim de uma coluna */
+        break-after: avoid;
+      }
+      .group.outros li {
+        /* cada item (título + autor) permanece inteiro numa coluna */
+        break-inside: avoid;
       }
       .group.outros .ghead .sq {
         background: #3a3a37;
@@ -499,9 +511,12 @@
         const norm = (s) =>
           s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
         const byTitle = (a, b) => a.title.localeCompare(b.title, "pt");
+        // Author de uma obra → chave do grupo. Autores combinados ("Karl Marx
+        // e Friedrich Engels") caem no primeiro autor do AUTHOR_ORDER que casa
+        // por substring; os demais usam o próprio nome como chave.
         const groupOf = (a) => {
           for (const x of AUTHOR_ORDER) if (a.includes(x)) return x;
-          return OUTROS;
+          return a;
         };
         const mk = (tag, cls, text) => {
           const e = document.createElement(tag);
@@ -542,7 +557,12 @@
           fList.appendChild(li);
         }
 
-        // Grouped library (author bands; authors outside authorOrder fall under "Outros autores")
+        // Biblioteca agrupada por autor.
+        //  • O AUTHOR_ORDER define apenas quais autores aparecem primeiro (e em
+        //    que ordem) — esses são sempre uma seção própria.
+        //  • Qualquer outro autor com 2+ títulos também ganha a sua seção,
+        //    listada em ordem alfabética depois das do AUTHOR_ORDER.
+        //  • Autores com um único título caem em "Outros autores", no fim.
         const rest = books.filter((b) => !b.highlight);
         const groups = new Map();
         for (const b of rest) {
@@ -550,8 +570,28 @@
           if (!groups.has(g)) groups.set(g, []);
           groups.get(g).push(b);
         }
-        const keys = AUTHOR_ORDER.filter((k) => groups.has(k));
-        if (groups.has(OUTROS)) keys.push(OUTROS);
+
+        // Autor ganha seção própria se está no AUTHOR_ORDER (curado) ou tem 2+
+        // títulos; os de título único colapsam em "Outros autores".
+        const outros = [];
+        for (const k of [...groups.keys()]) {
+          if (!AUTHOR_ORDER.includes(k) && groups.get(k).length < 2) {
+            outros.push(...groups.get(k));
+            groups.delete(k);
+          }
+        }
+
+        // Ordem das seções: AUTHOR_ORDER primeiro, depois o resto em ordem
+        // alfabética por autor, e "Outros autores" por último.
+        const keys = AUTHOR_ORDER.filter((k) => groups.has(k)).concat(
+          [...groups.keys()]
+            .filter((k) => !AUTHOR_ORDER.includes(k))
+            .sort((a, b) => a.localeCompare(b, "pt")),
+        );
+        if (outros.length) {
+          groups.set(OUTROS, outros);
+          keys.push(OUTROS);
+        }
 
         const lib = document.getElementById("library");
         for (const key of keys) {
